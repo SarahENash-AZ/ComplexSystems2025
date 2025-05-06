@@ -180,16 +180,16 @@ cat("Clustering coefficient:", coke_cc, "\n")
 
 # Create a random network [sample_gnm()] that has the same number of nodes 
 # [vcount()] and edges [ecount()]
-randomcaviar_cc1a <- sample_gnm(vcount(simplecaviar_igraph), ecount(caviar_igraph)  
+randomcoke_cc1a <- sample_gnm(vcount(cokeg), ecount(cokeg)  
                                 , directed = TRUE, loops = FALSE)
 # Calculate the Clustering coefficient of the random network
-random_caviar_cc1 <- transitivity(randomcaviar_cc1a, type = "global")
+random_coke_cc1 <- transitivity(randomcoke_cc1a, type = "global")
 # Calculate it and print it out
-cat("Clustering coefficient of a RANDOM network:", random_caviar_cc1, "\n")
+cat("Clustering coefficient of a random network:", random_coke_cc1, "\n")
 
 
 
-## MOTIFS
+## -- Motifs --
 
 # Calculate the motifs of the dataset for groups of 3 individuals
 coke_mot <- motifs(cokeg, size = 3)
@@ -223,12 +223,12 @@ for (i in 0:15) {
   )
 }
 
-## ASSORTATIVITY
+## -- Assortativity -- 
 
 # calculate the assortativity of the degree
-caviar_assortativity <- assortativity(simplecaviar_igraph, values = caviar_deg, directed = TRUE)
+coke_assortativity <- assortativity(cokeg, values = caviar_deg, directed = TRUE)
 # Calculate it and print it out
-cat("Assortativity of this network:", caviar_assortativity, "\n")
+cat("Assortativity of this network:", coke_assortativity, "\n")
 
 # calculate the degree of the random graph from earlier
 random_caviar_deg1 <- igraph::degree(randomcaviar_cc1a, mode = "in")
@@ -244,14 +244,14 @@ cat("Assortativity of a RANDOM network:", random_caviar_assortativity, "\n")
 communities_coke <- cluster_edge_betweenness(cokeg)
 coke_modularity <- modularity(communities_coke)
 #  Print it out
-cat("Modularity of this network:", coke_modularity, "\n")
+cat("Modularity:", coke_modularity, "\n")
 
-# -- Diameter
+# -- Diameter -- 
 
 # Calculate the diameter
 coke_diameter <- diameter(cokeg, directed = TRUE)
 # Print it out
-cat("Diameter of this network:", coke_diameter, "\n")
+cat("Diameter:", coke_diameter, "\n")
 
 
 
@@ -271,8 +271,10 @@ class(hen_df)
 # as a data frame
 hen_m <- data.matrix(hen_adj_matrix)
 # as a matrix
-#View(hen_m)
+View(hen_m)
 hen <- graph_from_adjacency_matrix(as.matrix(hen_adj_matrix))
+
+hen_i <- graph_from_adjacency_matrix(hen_adj_matrix)
 # as an adjacency matrix
 # NAs introduced by coercion
 
@@ -427,73 +429,23 @@ randomhen_cc1a <- sample_gnm(vcount(hen), ecount(hen)
 # Calculate the Clustering coefficient of the random network
 randomhen_cc1 <- transitivity(randomhen_cc1a, type = "global")
 # Calculate it and print it out
-cat("Clustering coefficient of a RANDOM network:", randomhen_cc1, "\n")
-
-
-
-## MOTIFS
-
-# Calculate the motifs of the dataset for groups of 3 individuals
-hen_mot <- motifs(hen, size = 3)
-# Set the aesthetic parameters & layout
-par(mar=c(0,1,0,1), oma = c(1,2,1,1), xpd=TRUE)# bottom, left, top, right
-layout(matrix(c(1,1,1,1,0,1,0,0,1,2,1,4,1,1,3,1,1,1,0,2,2,4,5,0,7,2,9,1,11,2,13,14,15,22,26,1)
-#              , nrow = 2, ncol = 36, byrow = T)
-#       , heights=c(4,1)) 
-# set the colors for this graph, matching the color scale used earlier
-color_distributions <- magma(50)
-# create a barplot showing the number of motifs out of each possible motif
-barplot(hen_mot
-        # color it using the mako color scale
-        , col = color_distributions
-        # idk what this does but it's necessary
-        , names.arg = seq(1, 16)
-)
-# set the parameters to show the aesthetics going underneath
-par(mar=c(0,0.5,0,0))
-for (i in 0:15) {
-  # This command gives the graph number i that is possible with
-  # 3 nodes. 
-  coke_motif_graph <- graph_from_isomorphism_class(3, i)
-  # Now plotting that:
-  plot(coke_motif_graph
-       , edge.arrow.size = 0.5
-       , edge.color = alpha("grey27", 0.5)
-       , edge.width = 2
-       , vertex.label.color = color_distributions
-       , vertex.label.cex = 1
-  )
-}
-
-## ASSORTATIVITY
-
-# calculate the assortativity of the degree
-caviar_assortativity <- assortativity(simplecaviar_igraph, values = caviar_deg, directed = TRUE)
-# Calculate it and print it out
-cat("Assortativity of this network:", caviar_assortativity, "\n")
-
-# calculate the degree of the random graph from earlier
-random_caviar_deg1 <- igraph::degree(randomcaviar_cc1a, mode = "in")
-# Calculate the assortativity of the random graph
-random_caviar_assortativity <- assortativity(randomcaviar_cc1a, values = random_caviar_deg1, directed = TRUE)
-# Calculate it and print it out
-cat("Assortativity of a RANDOM network:", random_caviar_assortativity, "\n")
+cat("Clustering coefficient of a random network:", randomhen_cc1, "\n")
 
 
 # -- Modularity --
 
 # Calculate the modularity 
-communities_coke <- cluster_edge_betweenness(cokeg)
-coke_modularity <- modularity(communities_coke)
+communities_hen <- cluster_edge_betweenness(hen)
+hen_modularity <- modularity(communities_hen)
 #  Print it out
-cat("Modularity of this network:", coke_modularity, "\n")
+cat("Modularity:", hen_modularity, "\n")
 
-# -- Diameter
+# -- Diameter -- 
 
 # Calculate the diameter
-coke_diameter <- diameter(cokeg, directed = TRUE)
+hen_diameter <- diameter(hen, directed = TRUE)
 # Print it out
-cat("Diameter of this network:", coke_diameter, "\n")
+cat("Diameter:", hen_diameter, "\n")
 
 
 
@@ -574,6 +526,9 @@ legend("topleft",
        title = "Degree Level",
        border = "black",
        cex = 0.8)
+
+
+
 
 # Nestedness 
 
